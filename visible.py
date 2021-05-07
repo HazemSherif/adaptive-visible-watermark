@@ -1,20 +1,9 @@
 import PIL
 from PIL import Image
-import requests
 from cv2 import cv2
-from io import BytesIO
 from PIL import ImageFilter
 from PIL import ImageEnhance
-from IPython.display import display
-import numpy as np
-from scipy.stats import entropy as en
-from skimage.io import imread, imshow
-from skimage import data
-from skimage.util import img_as_ubyte
-from skimage.filters.rank import entropy
-from skimage.morphology import disk
-from skimage.color import rgb2hsv, rgb2gray, rgb2yuv
-import skimage.measure   
+import numpy as np  
 import array 
 from math import log10, sqrt 
 import matplotlib.pyplot as plt
@@ -46,10 +35,12 @@ xx = (ww - wd) // 2
 yy = (hh - ht) // 2
 # copy img image into center of result image
 result[yy:yy+ht, xx:xx+wd] = img1
+
 # view result
 #cv2.imshow("result", result)
 #cv2.waitKey(0)
 #cv2.destroyAllWindows()
+
 # save result
 cv2.imwrite("mylogo_padded.jpg", result)
 
@@ -136,10 +127,9 @@ def embeddingWatermark(a,b,c,d):
     for x in range(img.width):
         for y in range(img.height):
             final_image[y][x] = 0.8 * imgArr[y][x] + 0.2 * logoArr[y][x]
-
-    no = Image.fromarray(final_image)
-    #no.show()
-    no.save("not_adaptive_1.jpg")
+    not_adaptive = Image.fromarray(final_image)
+    #not_adaptive.show()
+    not_adaptive.save("not_adaptive_1.jpg")
     psnr1 =  cv2.imread(file_name)
     psnr2 =  cv2.imread('lena.jpg')
     value = PSNR(psnr1, psnr2) 
@@ -147,11 +137,9 @@ def embeddingWatermark(a,b,c,d):
 
 contrastSensitivity(img)
 entropy_H()
-#visualFactor (weber,j,0.94,0.98,0.05,0.2060)
 visualFactor()
-#embeddingWatermark (0.7,0.8,0.13,0.1160)
+embeddingWatermark (0.6999999999999998,0.8,0.24999999999999994,0.1160)
 
-'''
 def plot_v():
     a = 0.9
     b = 0.8
@@ -167,11 +155,11 @@ def plot_v():
         embeddingWatermark (a,b,c,d)
         file_name = ("a; "+str(a) + "b; "+str(b) + "c; "+str(c) + "d; "+ str(d)+ ".jpg")
         psnr1 =  cv2.imread(file_name)
-        psnr2 =  cv2.imread('not_adaptive_1.jpg')
+        psnr2 =  cv2.imread('lena.jpg')
         value = PSNR(psnr1, psnr2) 
         a -= 0.02
         #b += 0.02
-        c = 0.05
+        c += 0.02
         #d += 0.02
         x1.append(a)
         #x2.append(b)
@@ -179,7 +167,13 @@ def plot_v():
         #x4.append(d)
         x5.append(value)
         print(i)
-
+    plt.plot(x1, x5, label = "image")
+    plt.plot(x3, x5, label = "watermark")
+    plt.xlabel('embedding factor')
+    plt.ylabel('PSNR')
+    plt.title('PSNR to embedding factors change')
+    plt.legend()
+    plt.show()
     a = 0.9
     b = 0.8
     c = 0.05
@@ -188,9 +182,9 @@ def plot_v():
         embeddingWatermark (a,b,c,d)
         file_name = ("a; "+str(a) + "b; "+str(b) + "c; "+str(c) + "d; "+ str(d)+ ".jpg")
         psnr1 =  cv2.imread(file_name)
-        psnr2 =  cv2.imread('not_adaptive_1.jpg')
+        psnr2 =  cv2.imread('lena.jpg')
         value = PSNR(psnr1, psnr2) 
-        a = 0.9
+        a += 0.02
         #b += 0.02
         c -= 0.02
         #d += 0.02
@@ -211,7 +205,5 @@ def plot_v():
     plt.legend()
     plt.show()
         
-plot_v()
-
-'''
+#plot_v()
 cv2.waitKey(0)

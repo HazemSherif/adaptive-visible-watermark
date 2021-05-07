@@ -15,14 +15,10 @@ def entropy(signal):
         ent=np.sum([p*np.log2(1.0/p) for p in propab])
         return ent
 
-
-
-
 colorIm=Image.open('lena.jpg')
 greyIm=colorIm.convert('L')
 colorIm=np.array(colorIm)
 greyIm=np.array(greyIm)
-
 
 N=2
 S=greyIm.shape
@@ -40,10 +36,8 @@ no.show()
 
 plt.subplot(1,3,1)
 plt.imshow(colorIm)
-
 plt.subplot(1,3,2)
 plt.imshow(greyIm, cmap=plt.cm.gray)
-
 plt.subplot(1,3,3)
 plt.imshow(E, cmap=plt.cm.jet)
 plt.xlabel('Entropy in 4x4 neighbourhood')
