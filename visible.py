@@ -132,9 +132,9 @@ def embeddingWatermark(a,b,c,d):
     not_adaptive.save("not_adaptive_1.jpg")
     psnr1 =  cv2.imread(file_name)
     psnr2 =  cv2.imread('lena.jpg')
-    value = PSNR(psnr1, psnr2) 
+    value = PSNR(psnr1, psnr2)
     print(value)
-
+    
 contrastSensitivity(img)
 entropy_H()
 visualFactor()
